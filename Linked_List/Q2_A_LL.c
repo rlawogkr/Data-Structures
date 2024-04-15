@@ -100,10 +100,49 @@ int main()
 }
 
 //////////////////////////////////////////////////////////////////////////////////
-
+/*
 void alternateMergeLinkedList(LinkedList *ll1, LinkedList *ll2)
 {
-    /* add your code here */
+    if(ll1->size == 0 || ll2->size == 0){ //ll1이나 ll2가 비어있는 상태라면 return
+		return;
+	}
+
+	ListNode *ll1_current = ll1->head; //ll1의 헤드부터 current
+	ListNode *ll2_current = ll2->head; //ll2의 헤드부터 current
+	ListNode *temp2; //ll2의 다음 노드를 임시 저장할 temp2
+	while(ll1_current != NULL && ll2_current != NULL){
+		temp2 = ll2_current->next;
+		ll2_current->next = ll1_current->next; //ll1을 먼저 연결하면 ll1->next를 저장할 temp를 또 생성해야 하니까
+		ll1_current->next = ll2_current; //ll2를 먼저 연결하고 ll1을 연결하는 방식
+		ll1_current = ll2_current->next; //어차피 ll2->ll1 연결하니까, ll1의 current는 ll2->next로 해주면 됨
+		ll2_current = temp2; 
+		ll2->head = ll2_current; //head를 current로 설정
+
+		ll1->size++;
+	}
+
+	return;
+}
+*/
+void alternateMergeLinkedList(LinkedList *ll1, LinkedList *ll2)//1번과 2번을 번갈아가면서 1에 넣어주고, 2는 값을 없앰. 첫번째는 1먼저. findNode로 찾아서 넣어주고, removeNode로 없애줌.
+{
+	ListNode *temp1, *temp2;
+	int i = 0;
+	int j = 0;
+	while (ll1->size > 0 && ll2->size > 0)
+	{
+		temp1 = findNode(ll1, i);
+		temp2 = findNode(ll2, 0);
+		
+		insertNode(ll1, i+1, temp2->item);
+		removeNode(ll2, 0);
+		
+		i += 2;
+		
+	}
+
+	
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
