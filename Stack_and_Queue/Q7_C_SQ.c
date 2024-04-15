@@ -102,9 +102,40 @@ int main()
 }
 
 ////////////////////////////////////////////////////////////
-int balanced(char *expression)
+int balanced(char *expression)//stack을 사용.
 {
-/* add your code here */
+	Stack s;
+	s.ll.head = NULL;
+	s.ll.size = 0;
+	int i = 0; // 인덱스
+	while(expression[i] != '\0')
+	{
+		/* add your code here */
+		if(expression[i] == '(' || expression[i] == '[' || expression[i] == '{')
+		{
+			push(&s, expression[i]);
+		}
+		else if(expression[i] == ')')
+		{
+			if(isEmptyStack(&s) || pop(&s) != '(')
+				return 1;
+		}
+		else if(expression[i] == ']')
+		{
+			if(isEmptyStack(&s) || pop(&s) != '[')
+				return 1;
+		}
+		else if(expression[i] == '}')
+		{
+			if(isEmptyStack(&s) || pop(&s) != '{')
+				return 1;
+		}
+		i++;
+	}
+	if(isEmptyStack(&s))
+		return 0;
+	else
+		return 1;
 }
 
 ////////////////////////////////////////////////////////////
