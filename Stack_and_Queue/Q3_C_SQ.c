@@ -101,9 +101,42 @@ int main()
 
 /////////////////////////////////////////////////////////////////////////////////
 
-int isStackPairwiseConsecutive(Stack *s)
+int isStackPairwiseConsecutive(Stack *s) //size가 홀수이면 0 return, size가 짝수이면 2개씩 비교, 연속되어있을 경우 모두 확인되면 1 return
 {
   /* add your code here */
+	if(isEmptyStack(s) || (s->ll).size % 2 == 1)
+	return 0;
+
+	//temp 스택 초기화
+	Stack temp;
+	temp.ll.head = NULL;
+	temp.ll.size = 0;
+	temp.ll.tail = NULL;
+
+	int i, j;
+	while(!isEmptyStack(s)){
+		i = pop(s);
+		if(!isEmptyStack(s)){
+			j = pop(s);
+			if(abs(i-j) != 1){
+				push(&temp, j);
+				push(&temp, i);
+				return 0;
+			}
+		}
+		else{
+			push(&temp, i);
+		}
+	}
+
+	while(!isEmptyStack(&temp)){//temp에 있는 값들을 다시 s에 넣어줌
+		i = pop(&temp);
+		push(s, i);
+	}
+
+	return 1;
+
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////
