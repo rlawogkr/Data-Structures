@@ -88,10 +88,55 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-int insertSortedLL(LinkedList *ll, int item)
+int insertSortedLL(LinkedList *ll, int item)//이미 current linked list에 해당 integer값이 있을 경우 입력할 수 없음. 
 {
-	/* add your code here */
+	ListNode *cur, *pre, *temp;
+	int index = 0;
+	
+	if (ll == NULL)
+		return -1;
+	
+	if (ll->head == NULL)//처음값이 없을 때 초기화
+	{
+		ll->head = malloc(sizeof(ListNode));
+		ll->head->item = item;
+		ll->head->next = NULL;
+		ll->size++;
+		return 0;
+	}
+	
+	cur = ll->head;
+	pre = NULL;
+	
+	while (cur != NULL)
+	{
+		if (cur->item == item)
+			return -1;
+		if (cur->item > item)
+			break;
+		pre = cur;
+		cur = cur->next;
+		index++;
+	}
+	
+	if (pre == NULL)
+	{
+		temp = malloc(sizeof(ListNode));
+		temp->item = item;
+		temp->next = ll->head;
+		ll->head = temp;
+		ll->size++;
+		return 0;
+	}
+	
+	temp = malloc(sizeof(ListNode));
+	temp->item = item;
+	temp->next = cur;
+	pre->next = temp;
+	ll->size++;
+	return index;
 }
+
 
 ///////////////////////////////////////////////////////////////////////////////////
 
