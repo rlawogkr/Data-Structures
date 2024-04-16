@@ -79,6 +79,7 @@ int main()
 			printList(&resultFrontList);
 			printf("Back linked list: ");
 			printList(&resultBackList);
+			
 			printf("\n");
 			removeAllItems(&ll);
 			removeAllItems(&resultFrontList);
@@ -103,27 +104,61 @@ int main()
 void frontBackSplitLinkedList(LinkedList *ll, LinkedList *resultFrontList, LinkedList *resultBackList)
 {
 	/* add your code here */
-	ListNode* slow = ll->head;
-	ListNode* fast = ll->head;
-	ListNode* prev;
+	int i = (ll->size % 2 == 0) ? ll->size : ll->size + 1;
+	i /= 2;
 
-	while (fast != NULL && fast->next != NULL) {
-		prev = slow;
-		slow = slow->next;
-		fast = fast->next->next;
-	}
+	//if original list is empty
+	if(i == 0)
+        return;
 
-	if (prev != NULL) {
-		if (fast != NULL) {
-			resultBackList->head = slow->next;
-			prev->next->next = NULL;
-			resultFrontList->head = ll->head;
-		} else {
-			prev->next = NULL;
-			resultFrontList->head = ll->head;
-			resultBackList->head = slow;
-		}
-	}
+	ListNode *llN = ll->head;
+
+	//initialize and copy index 0 to FrontList
+	ListNode *FN = malloc(sizeof(ListNode));
+	FN->item = llN->item;
+	FN->next = NULL;
+	resultFrontList->head = FN;
+	++(resultFrontList->size);
+	--i;
+
+	//write remaining 1st half of content to FrontList
+	while(i > 0)
+    {
+        llN = llN->next;
+        FN->next = malloc(sizeof(ListNode));
+        FN = FN->next;
+        FN->item = llN->item;
+        FN->next = NULL;
+
+        ++(resultFrontList->size);
+        --i;
+    }
+
+
+    llN = llN->next;
+    //in case original list only have size of 1
+    if(llN == NULL)
+        return;
+
+
+    //write to index 0 in BackList
+    ListNode *BN = malloc(sizeof(ListNode));
+	BN->item = llN->item;
+	BN->next = NULL;
+	resultBackList->head = BN;
+	++(resultBackList->size);
+
+    //write remaining content to BackList
+    for(i=(resultFrontList->size)+1; i<(ll->size); i++)
+    {
+        llN = llN->next;
+        BN->next = malloc(sizeof(ListNode));
+        BN = BN->next;
+        BN->item = llN->item;
+        BN->next = NULL;
+
+        ++(resultBackList->size);
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
