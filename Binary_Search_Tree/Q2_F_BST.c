@@ -91,6 +91,24 @@ int main()
 void inOrderTraversal(BSTNode *root)
 {
 	 /* add your code here */
+	//스택 초기화
+	Stack s;
+	s.top = NULL;
+	//BST의 루트 노드 가리키는 포인터
+	BSTNode *temp = root;
+
+	while (temp != NULL || !isEmpty(&s))
+	{
+		while (temp != NULL)
+		{
+			push(&s, temp);
+			temp = temp->left;
+		}
+
+		temp = pop(&s);
+		printf("%d ", temp->item);
+		temp = temp->right;
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////
