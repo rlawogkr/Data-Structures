@@ -103,7 +103,8 @@ int maxHeight(BTNode *node)
     else{
         leftHeight = maxHeight(node->left);
         rightHeight = maxHeight(node->right);
-        if(leftHeight > rightHeight) return leftHeight + 1;
+        //왼쪽 서브트리와 오른쪽 서브트리 높이 중 큰 값을 선택 + 1
+        if(leftHeight > rightHeight) return leftHeight + 1; 
         else return rightHeight + 1;
     
     }
